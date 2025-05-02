@@ -46,4 +46,30 @@ func main() {
 	fmt.Println("MAC:", otherInfo.MAC)
 	fmt.Println("Version:", otherInfo.Version)
 
+	Response, err := bmcClient.USBBoot(1)
+	if err != nil {
+		fmt.Println("Error setting USB boot:", err)
+		return
+	}
+
+	fmt.Println("USB Boot Response:", *Response)
+
+	Response, err = bmcClient.ClearUSBBoot(1)
+	if err != nil {
+		fmt.Println("Error clearing USB boot:", err)
+		return
+	}
+
+	fmt.Println("Clear USB Boot Response:", *Response)
+
+	powerStatus, err := bmcClient.GetPower()
+	if err != nil {
+		fmt.Println("Error getting Power Status:", err)
+		return
+	}
+
+	for node, status := range powerStatus {
+		fmt.Printf("%s Power Status: %s\n", node, status)
+	}
+
 }
